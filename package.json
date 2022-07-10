@@ -4,12 +4,12 @@
   "description": "joma's template",
   "main": "index.js",
   "dependencies": {
-    "ejs": "^2.5.9",
+    "ejs": "^3.1.8",
     "express": "^4.16.3",
+    "passport-facebook": "^3.0.0",
     "request": "^2.85.0",
     "tape": "^4.9.0"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "node index.js",
     "test": "node test.js"
