@@ -21,21 +21,22 @@
   </head>
 
   <body>
-    <script>
-      window.fbAsyncInit = function() {
+    
+<script>
+  window.fbAsyncInit = function() {
     FB.init({
       appId      : '816147459369763',
       cookie     : true,
       xfbml      : true,
-      version    : '14.0'
+      version    : 'v14.0'
     });
       
     FB.AppEvents.logPageView();   
-      
+    
+    FB.getLoginStatus(function(response) {
+      console.log(response);
+ });
   };
-  FB.getLoginStatus(function(response) {
-  statusChangeCallback(response);
-  });
 
   (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
@@ -44,9 +45,7 @@
      js.src = "https://connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
-    </script>
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v14.0&appId=816147459369763&autoLogAppEvents=1" nonce="80HMxYJ7"></script>
+</script>
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -74,7 +73,7 @@
       <div class="starter-template">
         <h1>Facebook Statistic Builder</h1>
         <img id="headshot" src="https://images.chesscomfiles.com/uploads/v1/images_users/tiny_mce/davidkaufmann/phpor7McW.jpeg" alt="Mountain View" width="60" height="250">
-        <p class="lead"> Keep my Idol's face here for fun</p>
+        <p class="lead">CLIP 16P: <a href="https://codingshiksha.com/javascript/node-js-passport-facebook-authentication-using-express-and-mongodb-full-project/">XEM NGAY</a></p>
       </div>
 
     </div><!-- /.container -->
