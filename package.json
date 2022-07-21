@@ -1,5 +1,5 @@
 {
-  "name": "node-js-template",
+  "name": "stats-improver",
   "version": "1.0.0",
   "description": "joma's template",
   "main": "index.js",
@@ -28,10 +28,11 @@
   "keywords": [
     "node"
   ],
-  "author": "Joma",
-  "license": "ISC",
+  "author": "FUY",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/jomaoppa/node-js-template/issues"
   },
-  "homepage": "https://github.com/jomaoppa/node-js-template#readme"
+  "homepage": "https://github.com/jomaoppa/node-js-template#readme",
+  "devDependencies": {}
 }
