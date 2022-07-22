@@ -12,10 +12,6 @@ const session = require('express-session');
 const User = require('./models/User');
 const facebookStrategy = require('passport-facebook').Strategy;
 
-const options = {
-  key: fs.readFileSync('localhost+1-key.pem'),
-  cert: fs.readFileSync('localhost+1.pem'),
-};
 
 app
   .use(express.static(path.join(__dirname, 'public')))
@@ -69,7 +65,8 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-app.get('/profile', isLoggedIn, (req, res) => {
+// app.get('/xyz') handles http://localhost:5000/profile
+app.get('/profile', isLoggedIn, (req, res) => { // req: request, res response
     console.log(req.user)
     res.render('profile', {
         user : req.user // get the user out of session and pass to template
@@ -79,23 +76,26 @@ app.get('/profile', isLoggedIn, (req, res) => {
 app.get('/logout', (req, res, next) => {
     req.logout((err) => {
         if (err) return next(err);
-        res.redirect('/');
+        res.redirect('/login');
     });
 });
 
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
+    if (req.isAuthenticated()) // passport-facebook
+        return next(); // callback
     res.redirect('/');
 }
 
 app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email','user_likes']}));
 app.get('/facebook/callback', passport.authenticate('facebook', {
     successRedirect : '/profile',
-    failureRedirect : '/'
+    failureRedirect : '/login'
 }));
-app.get('/',(req,res) => {
-    res.render("index3");
+app.get('/login',(req,res) => {
+    res.render("login");
+})
+app.get('/', (req, res) => {
+    res.render("home");
 })
 
 // const server = https.createServer(options, app);
