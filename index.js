@@ -9,9 +9,15 @@ const PORT = process.env.PORT || 5000 // 3000?
 const app = new express();
 const passport = require('passport');
 const session = require('express-session');
-const User = require('./models/User');
+const User = require('./models/user');
+const Post = require('./models/post');
+const mongoose = require('mongoose');
 const facebookStrategy = require('passport-facebook').Strategy;
 
+mongoose.connect("mongodb://localhost:27017/facebookauth", {
+    useNewUrlParser : true,
+    useUnifiedTopology : true,
+});
 
 app
   .use(express.static(path.join(__dirname, 'public')))
@@ -83,7 +89,7 @@ app.get('/logout', (req, res, next) => {
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) // passport-facebook
         return next(); // callback
-    res.redirect('/');
+    res.redirect('/login');
 }
 
 app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email','user_likes']}));
@@ -94,7 +100,7 @@ app.get('/facebook/callback', passport.authenticate('facebook', {
 app.get('/login',(req,res) => {
     res.render("login");
 })
-app.get('/', (req, res) => {
+app.get('/', isLoggedIn, (req, res) => {
     res.render("home");
 })
 
