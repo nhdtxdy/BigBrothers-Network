@@ -8,20 +8,16 @@
         body { padding-top:80px; }
     </style>
 </head>
-<body>
-<div class="container">
-
+<body class="d-flex flex-column min-vh-100">
+<main>
+    <div class="container">
     <div class="jumbotron text-center">
         <h1><span class="fa fa-lock"></span>Bigbrothers Login</h1>
-
         <p>Login or Register with:</p>
-
         <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
     </div>
-
-</div>
-<footer>
-    <%- include('partials/footer') %>
-</footer>
+    </div>
+</main>
+<%- include('partials/footer') %>
 </body>
 </html>
