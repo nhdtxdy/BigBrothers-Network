@@ -100,12 +100,16 @@ app.get('/profile', isLoggedIn, (req, res) => { // req: request, res response
         user : req.user, // get the user out of session and pass to template
     });
 });
-
 app.get('/logout', (req, res, next) => {
     req.logout((err) => {
         if (err) return next(err);
         res.redirect('/login');
     });
+});
+app.get('/postnow', isLoggedIn, (req, res) => {
+    res.render("postnow", {
+        pageName: "postnow",
+    })
 });
 
 const fbScopes = [
