@@ -23,7 +23,7 @@ app
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .use(session({ secret: 'pornhub' }))
+  .use(session({ secret: 'haHAA MaN' }))
   .use(passport.initialize())
   .use(passport.session()); 
   
@@ -34,9 +34,7 @@ passport.use(new facebookStrategy({
     profileFields: ['id', 'displayName', 'name', 'gender', 'picture.type(large)','email']
 
 }, (token, refreshToken, profile, done) => {
-    // asynchronous
     process.nextTick(() => {
-        // find the user in the database based on their facebook id
         User.findOne({'uid' : profile.id}, (err, user) => {
             if (err) return done(err);
             if (user) {
@@ -64,18 +62,38 @@ passport.use(new facebookStrategy({
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
-// used to deserialize the user
 passport.deserializeUser((id, done) => {
     User.findById(id, (err, user) => {
         done(err, user);
     });
 });
 
-// app.get('/xyz') handles http://localhost:5000/profile
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())  {
+        return next();
+    }
+    res.redirect('/login');
+}
+
+var unless = function(paths, middleware) {
+    return function(req, res, next) {
+        for (const path of paths) {
+            console.log(path);
+            if (req.path.includes(path)) {
+                return next();
+            }
+        }
+        return middleware(req, res, next);
+    };
+};
+
+// app.use(unless(['login', 'logout', 'facebook', 'auth'] , isLoggedIn));
+
 app.get('/profile', isLoggedIn, (req, res) => { // req: request, res response
     console.log(req.user)
     res.render('profile', {
-        user : req.user // get the user out of session and pass to template
+        pageName : "profile",
+        user : req.user, // get the user out of session and pass to template
     });
 });
 
@@ -86,22 +104,23 @@ app.get('/logout', (req, res, next) => {
     });
 });
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) // passport-facebook
-        return next(); // callback
-    res.redirect('/login');
-}
-
 app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email','user_likes']}));
 app.get('/facebook/callback', passport.authenticate('facebook', {
     successRedirect : '/profile',
     failureRedirect : '/login'
 }));
-app.get('/login',(req,res) => {
+app.get('/login', (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+    next();
+}, (req,res) => {
     res.render("login");
 })
 app.get('/', isLoggedIn, (req, res) => {
-    res.render("home");
+    res.render("home", {
+        pageName : "home",
+    });
 })
 
 // const server = https.createServer(options, app);
