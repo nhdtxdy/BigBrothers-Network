@@ -109,12 +109,9 @@ app.get('/postnow', isLoggedIn, (req, res) => {
     })
 }
 
-<<<<<<< HEAD
 )
 app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email','user_likes']}));
-=======
 app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email','user_likes', 'user_gender', 'public_profile', 'user_friends', 'user_posts', 'user_photos', 'user_videos']}));
->>>>>>> 2ef737c3196fd27cfb9a7d74595805e78d255e88
 app.get('/facebook/callback', passport.authenticate('facebook', {
     successRedirect : '/profile',
     failureRedirect : '/login'

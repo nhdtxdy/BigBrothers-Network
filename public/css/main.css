@@ -134,7 +134,6 @@ span.psw {
     width: 100%;
   }
 }
-<<<<<<< HEAD
 form.example input[type=text] {
   padding: 10px;
   font-size: 17px;
@@ -167,7 +166,6 @@ form.example::after {
   clear: both;
   display: table;
 }
-=======
 
 /* .navbar-nav > .active > a { 
   background-color: #c4c1c0; 
@@ -176,4 +174,3 @@ form.example::after {
 .nav-item > a:hover {
   background-color: #9e9c9b;
 } */
->>>>>>> 2ef737c3196fd27cfb9a7d74595805e78d255e88
