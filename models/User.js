@@ -7,6 +7,7 @@ var userSchema = mongoose.Schema({
     name : String,
     gender : String,
     pic : String,
+    posts : Array,
 });
 
 module.exports = mongoose.model('User', userSchema);
