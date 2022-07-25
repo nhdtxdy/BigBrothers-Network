@@ -31,7 +31,7 @@ passport.use(new facebookStrategy({
     clientID        : process.env.APPID,
     clientSecret    : process.env.SECRET,
     callbackURL     : "http://localhost:5000/facebook/callback",
-    profileFields: ['id', 'displayName', 'name', 'gender', 'picture.type(large)','email']
+    profileFields: ['id', 'displayName', 'name', 'gender', 'picture.type(large)','emails']
 
 }, (token, refreshToken, profile, done) => {
     process.nextTick(() => {
@@ -104,7 +104,7 @@ app.get('/logout', (req, res, next) => {
     });
 });
 
-app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email','user_likes']}));
+app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email','user_likes', 'user_gender', 'public_profile', 'user_friends', 'user_posts', 'user_photos', 'user_videos']}));
 app.get('/facebook/callback', passport.authenticate('facebook', {
     successRedirect : '/profile',
     failureRedirect : '/login'
@@ -116,11 +116,14 @@ app.get('/login', (req, res, next) => {
     next();
 }, (req,res) => {
     res.render("login");
-})
+});
 app.get('/', isLoggedIn, (req, res) => {
     res.render("home", {
         pageName : "home",
     });
+});
+app.get('/test', (req, res) => {
+    res.render("sdk_test");
 })
 
 // const server = https.createServer(options, app);
