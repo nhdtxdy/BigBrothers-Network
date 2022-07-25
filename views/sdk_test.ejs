@@ -36,6 +36,7 @@
 
 
     FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+      console.log(response);
       statusChangeCallback(response);        // Returns the login status.
     });
   };
@@ -48,7 +49,7 @@
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
     });
-    FB.api('/me/likes', (res) => {
+    FB.api('/me/friends?limit=100', (res) => {
       console.log(res);
     })
   }
@@ -58,7 +59,7 @@
 
 <!-- The JS SDK Login Button -->
 
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+<fb:login-button scope="public_profile,email,user_friends,user_gender,user_posts,user_likes" onlogin="checkLoginState();">
 </fb:login-button>
 
 <div id="status">

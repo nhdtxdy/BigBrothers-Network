@@ -31,16 +31,20 @@ passport.use(new facebookStrategy({
     clientID        : process.env.APPID,
     clientSecret    : process.env.SECRET,
     callbackURL     : "http://localhost:5000/facebook/callback",
-    profileFields: ['id', 'displayName', 'name', 'gender', 'picture.type(large)','emails']
+    profileFields: ['picture.type(large)', 'id', 'displayName', 'name', 'gender','emails']
 
 }, (token, refreshToken, profile, done) => {
+    console.log(token);
     process.nextTick(() => {
         User.findOne({'uid' : profile.id}, (err, user) => {
             if (err) return done(err);
             if (user) {
                 console.log("user found")
-                console.log(user)
-                return done(null, user);
+                user.token = token;
+                user.save((err) => {
+                    if (err) throw err;
+                    return done(null, user);
+                })
             }
             else {
                 var newUser = new User();
@@ -104,7 +108,19 @@ app.get('/logout', (req, res, next) => {
     });
 });
 
-app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email','user_likes', 'user_gender', 'public_profile', 'user_friends', 'user_posts', 'user_photos', 'user_videos']}));
+const fbScopes = [
+    'email',
+    'user_likes', 
+    'user_gender', 
+    'public_profile', 
+    'user_friends', 
+    'user_posts', 
+    'user_photos', 
+    'user_videos',
+    'manage_pages',
+];
+
+app.get('/auth/facebook', passport.authenticate('facebook', {scope : fbScopes}));
 app.get('/facebook/callback', passport.authenticate('facebook', {
     successRedirect : '/profile',
     failureRedirect : '/login'
