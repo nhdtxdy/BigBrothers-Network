@@ -117,7 +117,7 @@ const fbScopes = [
     'user_posts', 
     'user_photos', 
     'user_videos',
-    'manage_pages',
+    // 'manage_pages',
 ];
 
 app.get('/auth/facebook', passport.authenticate('facebook', {scope : fbScopes}));
