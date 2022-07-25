@@ -11,3 +11,5 @@ var userSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('User', userSchema);
+
+// So to store in MongoDB

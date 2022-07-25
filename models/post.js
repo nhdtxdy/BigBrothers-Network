@@ -8,3 +8,5 @@ var postSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('Post', postSchema);
+
+// So to store in MongoDB
