@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+
+  <body>
+    <header>
+        <%- include('partials/header') %>
+    </header>
+
+    <main>
+       <!-- Load icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- The form -->
+        <form class="example" action="action_page.php">
+        <input type="text" placeholder="Search.." name="search">
+        <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </main>
+
+    <footer>
+        <%- include('partials/footer') %>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

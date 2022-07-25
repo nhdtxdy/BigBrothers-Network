@@ -103,7 +103,13 @@ app.get('/logout', (req, res, next) => {
         res.redirect('/login');
     });
 });
+app.get('/postnow', isLoggedIn, (req, res) => {
+    res.render("postnow", {
+        pageName: "postnow",
+    })
+}
 
+)
 app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email','user_likes']}));
 app.get('/facebook/callback', passport.authenticate('facebook', {
     successRedirect : '/profile',
