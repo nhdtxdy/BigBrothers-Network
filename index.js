@@ -23,6 +23,8 @@ mongoose.connect("mongodb+srv://nhdtxdy:tombeo01@cluster0.1nwrmhp.mongodb.net/bi
     useUnifiedTopology : true,
 });
 
+app.enable('trust proxy');
+
 app
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
@@ -34,7 +36,7 @@ app
 passport.use(new facebookStrategy({
     clientID        : process.env.APPID,
     clientSecret    : process.env.SECRET,
-    callbackURL     : "/facebook/callback",
+    callbackURL     : `http://localhost:${PORT}/facebook/callback`,
     profileFields: ['picture.type(large)', 'id', 'displayName', 'name', 'gender','emails']
 
 }, (token, refreshToken, profile, done) => {
