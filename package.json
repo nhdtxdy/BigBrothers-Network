@@ -4,6 +4,7 @@
   "description": "joma's template",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.20.0",
     "bootstrap": "^5.2.0",
     "devcert": "^1.2.2",
     "dotenv": "^16.0.1",
@@ -15,7 +16,8 @@
     "nodemon": "^2.0.19",
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
-    "request": "^2.85.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "tape": "^4.9.0"
   },
   "scripts": {

@@ -6,19 +6,56 @@
   </head>
 
   <body class="d-flex flex-column min-vh-100">
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v14.0&appId=2029862470519392&autoLogAppEvents=1" nonce="t4fTQnzg"></script>
     <header>
         <%- include('partials/header') %>
     </header>
-
     <main>
     <div class="container">
-      <div class="starter-template">
-        <h1>Facebook Statistic Builder</h1>
-        <img id="headshot" src="https://static.nationalgeographic.co.uk/files/styles/image_3200/public/MAIN_mask_only.jpg?w=1600&h=900" alt="Mountain View">
-        <p class="lead">U R DOOMED: <a href="https://codingshiksha.com/javascript/node-js-passport-facebook-authentication-using-express-and-mongodb-full-project/">XEM NGAY</a></p>
+      <div class="row h-100 justify-content-center align-items-center">
+        <div class="card" style="width: 48rem">
+          <div class="border border-left border-right px-0">
+            <div>
+              <% posts.forEach(post => { %>
+              <div class="d-flex p-3 border-bottom">
+                <img src="<%= post.opPic %>" class="rounded-circle"
+                  height="50" alt="Avatar" loading="lazy" />
+                <div class="d-flex w-100 ps-3">
+                  <div>
+                    <h6 class="text-body">
+                      <a href="#">
+                        <%= post.opName %>
+                        <!-- <span class="small text-muted font-weight-normal">@mileycyrus</span> -->
+                        <span class="small text-muted font-weight-normal"> • </span>
+                        <!-- <span class="small text-muted font-weight-normal">2h</span> -->
+                        <span><i class="fas fa-angle-down float-end"></i></span>
+                      </a>
+                      <span style="color:green"><%= post.reward / post.goal %> tokens reward</span>
+                    </h6>
+                    <p style="line-height: 1.2;">
+                      <%= post.description %>
+                    </p>
+                    <div class="fb-post" data-href="<%= post.href %>" data-show-text="true"><blockquote cite="<%= post.href %>" class="fb-xfbml-parse-ignore">Posted by <a href="https://www.facebook.com/facebook/">Facebook</a> on&nbsp;<a href="<%= post.href %>">some time</a></blockquote></div>
+                    <!-- <ul class="list-unstyled d-flex justify-content-between mb-0 pe-xl-5">
+                      <li>
+                        <i class="far fa-comment"></i>
+                      </li>
+                      <li><i class="fas fa-retweet"></i><span class="small ps-2">7</span></li>
+                      <li><i class="far fa-heart"></i><span class="small ps-2">35</span></li>
+                      <li>
+                        <i class="far fa-share-square"></i>
+                      </li>
+                    </ul> -->
+                  </div>
+                </div>
+              </div>
+              <% }); %>
+            </div>
+          </div>
+        </div>
       </div>
-
-    </div><!-- /.container -->
+    </div>
     </main>
 
     <%- include('partials/footer') %>

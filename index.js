@@ -9,12 +9,16 @@ const PORT = process.env.PORT || 5000 // 3000?
 const app = new express();
 const passport = require('passport');
 const session = require('express-session');
-const User = require('./models/user');
-const Post = require('./models/post');
+const User = require('./models/User');
+const Post = require('./models/Post');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const internal = require('stream');
+const user = require('./models/User');
 const facebookStrategy = require('passport-facebook').Strategy;
+const regexurlpattn = new RegExp(".+facebook\.com/.+");
 
-mongoose.connect("mongodb://localhost:27017/facebookauth", {
+mongoose.connect("mongodb+srv://nhdtxdy:tombeo01@cluster0.1nwrmhp.mongodb.net/bigbrothers", {
     useNewUrlParser : true,
     useUnifiedTopology : true,
 });
@@ -25,7 +29,7 @@ app
   .set('view engine', 'ejs')
   .use(session({ secret: 'haHAA MaN' }))
   .use(passport.initialize())
-  .use(passport.session()); 
+  .use(passport.session())
   
 passport.use(new facebookStrategy({
     clientID        : process.env.APPID,
@@ -48,7 +52,7 @@ passport.use(new facebookStrategy({
             }
             else {
                 var newUser = new User();
-                newUser.uid = profile.id;                  
+                newUser.uid = profile.id;
                 newUser.token = token;                    
                 newUser.name = profile.name.givenName + ' ' + profile.name.familyName;
                 newUser.email = profile.emails[0].value;
@@ -109,6 +113,7 @@ app.get('/logout', (req, res, next) => {
 app.get('/postnow', isLoggedIn, (req, res) => {
     res.render("postnow", {
         pageName: "postnow",
+        user: req.user,
     })
 });
 
@@ -116,11 +121,11 @@ const fbScopes = [
     'email',
     'user_likes', 
     'user_gender', 
-    'public_profile', 
-    'user_friends', 
-    'user_posts', 
-    'user_photos', 
-    'user_videos',
+    'public_profile',
+    'user_posts',
+    'pages_manage_engagement',
+    'pages_manage_posts',
+    'pages_read_engagement',
     // 'manage_pages',
 ];
 
@@ -138,19 +143,61 @@ app.get('/login', (req, res, next) => {
     res.render("login");
 });
 app.get('/', isLoggedIn, (req, res) => {
-    res.render("home", {
-        pageName : "home",
+    Post.find().sort({createdAt : -1}).limit(10).exec(function(err, posts){
+       if (err) throw err;
+       res.render('home', {
+        pageName : 'home',
+        posts : posts,
+       });
     });
 });
 app.get('/test', (req, res) => {
     res.render("sdk_test");
-})
+});
 
-// const server = https.createServer(options, app);
+app.use(bodyParser.urlencoded({extended : false}));
+app.post('/post', isLoggedIn, (req, res) => {
+    const data = req.body;
+    if (!req.user.admin && (parseInt(data.amount) > req.user.balance || parseInt(data.amount) % parseInt(data.goal) != 0 || !regexurlpattn.test(data.href))) {
+        console.log("DCMM");
+        res.end("Learn to read, noob!");
+        return;
+    }
+    res.redirect('/');
+    process.nextTick(() => {
+        req.user.balance -= data.amount;
+        var newPost = new Post();
+        newPost.reward = data.amount;
+        newPost.goal = data.goal;
+        newPost.href = data.href;      
+        newPost.href_encoded = encodeURI(data.href);          
+        newPost.description = data.message;
+        newPost.opName = req.user.name;
+        newPost.opPic = req.user.pic;
+        newPost.createdAt = Date.now();
+        newPost.save((err) => {
+            if (err) throw err;
+            return;
+        });
+        req.user.posts.push(newPost._id);
+        req.user.save((err) => {
+            if (err) throw err;
+            return;
+        })
+    });
+});
+app.post('/delete', isLoggedIn, (req, res) => {
+    // {postId : _id}
+    res.redirect('/');
+    process.nextTick(() => {
+        Post.findByIdAndDelete(req.body.postId, (err, post) => {
+            if (err) throw err;
+        });
+    });
+});
+
 const http_server = http.createServer(app);
 http_server.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
-
-  
 

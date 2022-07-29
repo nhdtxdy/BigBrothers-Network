@@ -7,7 +7,9 @@ var userSchema = mongoose.Schema({
     name : String,
     gender : String,
     pic : String,
-    posts : Array,
+    balance : {type : Number, default : 0},
+    admin : {type : Boolean, default : false},
+    posts : {type : Array, default : []},
 });
 
 module.exports = mongoose.model('User', userSchema);
