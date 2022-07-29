@@ -34,7 +34,7 @@ app
 passport.use(new facebookStrategy({
     clientID        : process.env.APPID,
     clientSecret    : process.env.SECRET,
-    callbackURL     : `http://localhost:${PORT}/facebook/callback`,
+    callbackURL     : "/facebook/callback",
     profileFields: ['picture.type(large)', 'id', 'displayName', 'name', 'gender','emails']
 
 }, (token, refreshToken, profile, done) => {
