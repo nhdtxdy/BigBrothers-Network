@@ -6,3 +6,26 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
 <script src="js/bootstrap.min.js"></script>
+<script>
+    function sendMessage(extensionId, request) {
+        return new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage(extensionId, request, (response) => {
+                if (response.version) resolve(response);
+                else reject(response);
+            });
+        })
+    }
+
+
+    const extensionId = 'hfefdnbcebogljmmhlefompbghcjcank';
+    sendMessage(extensionId, {type : "VERSION"}).catch((err) => {
+        console.log("?");
+        location.assign('/extension_required');
+    }).then(response => {
+        var hasExtension = (response.version == "1.0");
+        if (!hasExtension) {
+            location.assign('/extension_required');
+        }
+    });
+    
+</script>

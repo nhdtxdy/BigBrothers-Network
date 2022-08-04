@@ -36,9 +36,14 @@
                   <textarea form="makepost" name="message" class="form-control" id="message" rows="3"></textarea>
                 </div>
                 <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                  <input type="checkbox" name="hideContent" class="custom-control-input" id="hideContent">
+                  <label class="custom-control-label" for="hideContent">Hide content of original post</label>
+                </div>
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
                   <input type="checkbox" onclick="confirm()" name="confirmation" class="custom-control-input" id="confirmation">
                   <label class="custom-control-label" for="confirmation">I understand that this action is irreversible</label>
                 </div>
+                <input type="hidden" name="nonce" value="<%= user.nonce %>">
                 <button type="button" onclick="doubleCheck(true,true)" disabled name="submitButton" id="submitButton" class="btn btn-primary">Submit</button>
               </form>
               <br>
@@ -46,7 +51,7 @@
               <br>
               <small class="alert2" style="color:red;display:none">Invalid url</small>
               <script>
-                var confirmed = false;
+                let confirmed = false;
                 function doubleCheck(showAlert=false,doSubmit=false) {
                   if (!document.makepost.amount.value || !document.makepost.goal.value || !document.makepost.href.value || !confirmed) {
                     if (showAlert) {
@@ -71,7 +76,7 @@
                 }
                 function goalCheck() {
                   console.log("check");
-                  if (parseInt(document.makepost.amount.value) % parseInt(document.makepost.goal.value) != 0) {
+                  if (parseInt(document.makepost.amount.value) <= 0 || parseInt(document.makepost.goal.value) <= 0 || parseInt(document.makepost.amount.value) % parseInt(document.makepost.goal.value) != 0) {
                     $('.alert').show();
                     document.makepost.submitButton.disabled = true;
                     return false;
@@ -98,6 +103,6 @@
         <script src="js/backstretch.min.js" defer></script>
         <script src="js/backstretch_postnow.js" defer></script>
     </main>
-    <%- include('partials/footer') %>
+    <%- include('partials/footer', {user : user}) %>
   </body>
 </html>

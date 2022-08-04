@@ -1,3 +1,5 @@
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v14.0&appId=2029862470519392&autoLogAppEvents=1" nonce="t4fTQnzg"></script>
 <nav class="navbar justify-content-between navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">
         <img width="40" height="40" src="https://static-cdn.jtvnw.net/emoticons/v1/1904/3.0">
@@ -16,7 +18,9 @@
         <li class="nav-item  <% if (pageName === "postnow") { %> active <% } %>">
           <a class="nav-link" href="/postnow">Post Now</a>
         </li>
-        
+        <li class="nav-item  <% if (pageName === "topup") { %> active <% } %>">
+          <a class="nav-link" href="/topup">Top Up!</a>
+        </li>
       </ul>  
       <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
       <form class="form-inline my-2 my-lg-0">
@@ -25,7 +29,7 @@
       </form>     
         <ul class="navbar-nav ml-auto">
           <li class="navbar-nav">
-              <button class="btn btn-sm btn-outline-success" type="button" onclick="window.location='/logout'">Log Out</button>
+              <a href="/logout" class="btn btn-sm btn-outline-success">Log Out</a>
           </li>
         </ul>
     </div>
