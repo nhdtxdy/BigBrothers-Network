@@ -10,7 +10,7 @@ var userSchema = mongoose.Schema({
     admin : {type : Boolean, default : false},
     posts : {type : Array, default : []},
     inactivePosts : {type : Array, default : []},
-    likedPost : {type : Array, defalt : []},
+    likedPosts : {type : Array, defalt : []},
 });
 
 module.exports = mongoose.model('User', userSchema);

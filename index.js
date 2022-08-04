@@ -51,7 +51,9 @@ app.use(bodyParser.urlencoded({extended : false}));
 passport.use(new facebookStrategy({
     clientID        : process.env.APPID,
     clientSecret    : process.env.SECRET,
-    callbackURL     : `http://localhost:${PORT}/facebook/callback`,
+    // callbackURL     : `http://localhost:${PORT}/facebook/callback`,
+    callbackURL     : `/facebook/callback`,
+
     profileFields: ['picture.type(large)', 'id', 'displayName', 'name'/*, 'gender','emails'*/]
 }, (token, refreshToken, profile, done) => {
     User.findOne({'uid' : profile.id}, (err, user) => {
@@ -171,7 +173,7 @@ app.get('/login', (req, res, next) => {
     res.render("login");
 });
 app.get('/', isLoggedIn, (req, res) => {
-    Post.find().sort({createdAt : -1}).limit(10).exec((err, posts) => {
+    Post.find({_id : {$nin : req.user.likedPosts}}).sort({createdAt : -1}).limit(10).exec((err, posts) => {
        if (err) throw err;
        res.render('home', {
         pageName : 'home',
@@ -324,13 +326,13 @@ app.post('/validate', (req, res) => {
             if (decrypted == "hidden_elem") {
                 Post.findById(postId, (err, post) => {
                     if (post) {
-                        if (user.likedPost.includes(postId)) {
+                        if (user.likedPosts.includes(postId)) {
                             res.json(data);
                             return;
                         }
                         console.log("here");
                         data['success'] = true;
-                        user.likedPost.push(postId);
+                        user.likedPosts.push(postId);
                         user.balance += post.reward;
                         post.available -= 1;
                         if (post.available <= 0) {
