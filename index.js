@@ -5,7 +5,8 @@ const https = require('https');
 const http = require('http');
 const express = require('express');
 const path = require('path');
-const PORT = process.env.PORT || 5000 // 3000?
+const HTTP_PORT = process.env.HTTP_PORT || 5000 // 3000?
+const HTTPS_PORT = process.env.HTTPS_PORT
 const app = new express();
 const passport = require('passport');
 const session = require('express-session');
@@ -25,6 +26,9 @@ const { Server } = require('socket.io');
 const { use } = require('passport');
 const { post } = require('request');
 const ENCRYPTION_IV = "6268890F-9B58-48";
+const privateKey  = fs.readFileSync('server.key', 'utf8');
+const certificate = fs.readFileSync('server.crt', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
 
 mongoose.connect("mongodb+srv://nhdtxdy:tombeo01@cluster0.1nwrmhp.mongodb.net/bigbrothers", {
     useNewUrlParser : true,
@@ -52,7 +56,7 @@ passport.use(new facebookStrategy({
     clientID        : process.env.APPID,
     clientSecret    : process.env.SECRET,
     // callbackURL     : `http://localhost:${PORT}/facebook/callback`,
-    callbackURL     : `/facebook/callback`,
+    callbackURL     : `http:///facebook/callback`,
 
     profileFields: ['picture.type(large)', 'id', 'displayName', 'name'/*, 'gender','emails'*/]
 }, (token, refreshToken, profile, done) => {
@@ -386,13 +390,19 @@ app.post('/validate', (req, res) => {
 });
 
 const http_server = http.createServer(app);
-const io = new Server(http_server);
+const https_server = https.createServer(credentials, app);
 
-io.on('connection', (socket) => {
-    console.log('A user connected to socket.io');
-})
+// const io = new Server(http_server);
 
-http_server.listen(PORT, () => {
-  console.log(`Server is listening on http://localhost:${PORT}`);
+// io.on('connection', (socket) => {
+//     console.log('A user connected to socket.io');
+// })
+
+http_server.listen(HTTP_PORT, () => {
+  console.log(`Server is listening on http://localhost:${HTTP_PORT}`);
 });
+
+https_server.listen(HTTPS_PORT, () => {
+    console.log(`Https server is listening on http://localhost:${HTTPS_PORT}`);
+})
 
