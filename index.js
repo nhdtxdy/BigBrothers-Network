@@ -398,9 +398,9 @@ const https_server = https.createServer(credentials, app);
 //     console.log('A user connected to socket.io');
 // })
 
-http_server.listen(HTTP_PORT, () => {
-  console.log(`Server is listening on http://localhost:${HTTP_PORT}`);
-});
+// http_server.listen(HTTP_PORT, () => {
+//   console.log(`Server is listening on http://localhost:${HTTP_PORT}`);
+// });
 
 https_server.listen(HTTPS_PORT, () => {
     console.log(`Https server is listening on http://localhost:${HTTPS_PORT}`);
