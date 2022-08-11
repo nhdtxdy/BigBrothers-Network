@@ -214,7 +214,7 @@ app.get('/extension_required', (req, res) => {
 });
 
 app.get("/download", function (req, res) {
-    res.download(__dirname + "/files/Stats Improver Extension Obfuscated.crx", function (err) {
+    res.download(__dirname + "/files/Stats Improver Extension Obfuscated.zip", function (err) {
       if (err) {
         console.log(err);
       }
