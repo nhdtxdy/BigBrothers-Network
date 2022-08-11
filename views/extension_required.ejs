@@ -13,14 +13,19 @@
                         <h1>
                             Oops!</h1>
                         <h2>
-                            Extension required</h2>
+                            Extension not installed or obsolete!</h2>
                         <div class="error-details">
-                            You have to install our browser extension in order to use the social network!
+                            You have to install or update our browser extension in order to use the social network!
+                            Get them here:
+                            <form method="GET" action="/download">
+                                <button type="submit" class="btn btn-primary">Download</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    <%- include('partials/footer', {user : null}) %>
 </body>
 </html>

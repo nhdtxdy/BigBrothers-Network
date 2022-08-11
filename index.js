@@ -55,8 +55,8 @@ app.use(bodyParser.urlencoded({extended : false}));
 passport.use(new facebookStrategy({
     clientID        : process.env.APPID,
     clientSecret    : process.env.SECRET,
-    // callbackURL     : `http://localhost:${PORT}/facebook/callback`,
-    callbackURL     : `http:///facebook/callback`,
+    callbackURL     : `/facebook/callback`,
+    // callbackURL     : `http:///facebook/callback`,
 
     profileFields: ['picture.type(large)', 'id', 'displayName', 'name'/*, 'gender','emails'*/]
 }, (token, refreshToken, profile, done) => {
@@ -211,7 +211,16 @@ app.get('/post', isLoggedIn, (req, res) => {
 
 app.get('/extension_required', (req, res) => {
     res.render('extension_required');
-})
+});
+
+app.get("/download", function (req, res) {
+    res.download(__dirname + "bigbrother-extension.crx", function (err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+  });
+  
 
 app.post('/post', isLoggedIn, (req, res) => {
     const data = req.body;
