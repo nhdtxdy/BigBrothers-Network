@@ -22,16 +22,21 @@
         });
     }
 
-
-    const extensionId = 'hfnojppajogjpjfkhmegkhgdahpnhhpk';
-    sendMessage(extensionId, {type : "VERSION"}).catch((err) => {
-        console.log("?");
-        if (!location.href.endsWith('/extension_required')) location.assign('/extension_required');
-    }).then(response => {
-        var hasExtension = (response.version == "1.0");
-        if (!hasExtension) {
+    const check = document.getElementById('bigBrotherExtensionCheck');
+    if (check != undefined) {
+        const extensionId = check.value;
+        sendMessage(extensionId, {type : "VERSION"}).catch((err) => {
+            console.log("?");
             if (!location.href.endsWith('/extension_required')) location.assign('/extension_required');
-        }
-    });
+        }).then(response => {
+            var hasExtension = (response.version == "1.0");
+            if (!hasExtension) {
+                if (!location.href.endsWith('/extension_required')) location.assign('/extension_required');
+            }
+        });
+    }
+    else {
+        if (!location.href.endsWith('/extension_required')) location.assign('/extension_required');
+    }
     
 </script>
