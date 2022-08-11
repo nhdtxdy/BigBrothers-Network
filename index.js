@@ -346,7 +346,7 @@ app.post('/validate', (req, res) => {
                         console.log("here");
                         data['success'] = true;
                         user.likedPosts.push(postId);
-                        user.balance += post.reward;
+                        user.balance += post.reward / post.goal;
                         post.available -= 1;
                         if (post.available <= 0) {
                             // remove the post
