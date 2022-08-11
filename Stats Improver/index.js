@@ -398,7 +398,7 @@ app.post('/validate', (req, res) => {
     })
 });
 
-const http_server = http.createServer(app);
+// const http_server = http.createServer(app);
 const https_server = https.createServer(credentials, app);
 
 // const io = new Server(http_server);
