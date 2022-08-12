@@ -1,4 +1,6 @@
-require('dotenv').config();
+#!/usr/bin/env node
+
+require('dotenv').config(); // for process.env.
 const devcert = require('devcert');
 const fs = require('fs');
 const https = require('https');
@@ -26,8 +28,8 @@ const { Server } = require('socket.io');
 const { use } = require('passport');
 const { post } = require('request');
 const ENCRYPTION_IV = "6268890F-9B58-48";
-const privateKey  = fs.readFileSync('server.key', 'utf8');
-const certificate = fs.readFileSync('server.crt', 'utf8');
+const privateKey  = fs.readFileSync('./server.key', 'utf8');
+const certificate = fs.readFileSync('./server.crt', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 
 mongoose.connect("mongodb+srv://nhdtxdy:tombeo01@cluster0.1nwrmhp.mongodb.net/bigbrothers", {
@@ -398,7 +400,7 @@ app.post('/validate', (req, res) => {
     })
 });
 
-const http_server = http.createServer(app);
+// const http_server = http.createServer(app);
 const https_server = https.createServer(credentials, app);
 
 // const io = new Server(http_server);
@@ -412,6 +414,8 @@ const https_server = https.createServer(credentials, app);
 // });
 
 https_server.listen(HTTPS_PORT, () => {
-    console.log(`Https server is listening on http://localhost:${HTTPS_PORT}`);
+    console.log(`Https server is listening on https://localhost:${HTTPS_PORT}`);
 })
+// Ok
+// Test change 3
 
