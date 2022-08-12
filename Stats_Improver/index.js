@@ -153,6 +153,13 @@ app.get('/topup', isLoggedIn, (req, res) => {
     })
 });
 
+app.get('/privacy_policy', (req, res) => {
+    res.render("privacy_policy", {
+        pageName: "privacy_policy",
+        user: req.user,
+    })
+});
+
 const fbScopes = [
     // 'email',
     // 'user_likes', 
