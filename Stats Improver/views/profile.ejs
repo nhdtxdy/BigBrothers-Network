@@ -9,8 +9,8 @@
     </header>
     <main>
         <div class="container">
-            <div class="page-header text-center">
-                <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+            <div class="page-header text-center">                
+                <h1><img class = "rounded-circle" src="<%=user.pic%>" alt=""> <span class="fa fa-anchor"></span> <%= user.name%></h1>
             </div>
             <div class="row justify-content-center align-items-center">
                 <!-- FACEBOOK INFORMATION -->
@@ -20,12 +20,11 @@
                         <button type="button" onclick="window.location='/topup'" class="btn btn-primary">Buy Tokens</button>
                         </h3>
                             <p>
-                                <strong>id</strong>: <%= user.uid %><br>
+                                <strong>UserID</strong>: <%= user.uid %><br>
                                 <!-- <strong>email</strong>: <%= user.email %><br> -->
-                                <strong>name</strong>: <%= user.name %><br>
+                                <strong>Name</strong>: <%= user.name %><br>
                                 <!-- <strong>gender</strong>: <%= user.gender %><br> -->
-                                <strong>Profile pic</strong><br>
-                                <img src="<%=user.pic%>" width="200" height="200" alt="">
+                                
                             </p>
                     </div>
                 </div>
