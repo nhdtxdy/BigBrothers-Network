@@ -4,7 +4,9 @@
   "description": "pog univeristy",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node Stats_Improver/index.js",
+    "test": "node Stats_Improver/test.js",
+    "watch": "nodemon Stats_Improver/index.js"
   },
   "repository": {
     "type": "git",
