@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('dotenv').config();
+require('dotenv').config(); // for process.env.
 const devcert = require('devcert');
 const fs = require('fs');
 const https = require('https');
