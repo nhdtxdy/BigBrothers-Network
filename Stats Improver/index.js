@@ -26,8 +26,8 @@ const { Server } = require('socket.io');
 const { use } = require('passport');
 const { post } = require('request');
 const ENCRYPTION_IV = "6268890F-9B58-48";
-const privateKey  = fs.readFileSync('server.key', 'utf8');
-const certificate = fs.readFileSync('server.crt', 'utf8');
+const privateKey  = fs.readFileSync('./server.key', 'utf8');
+const certificate = fs.readFileSync('./server.crt', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 
 mongoose.connect("mongodb+srv://nhdtxdy:tombeo01@cluster0.1nwrmhp.mongodb.net/bigbrothers", {
