@@ -7,8 +7,9 @@ const https = require('https');
 const http = require('http');
 const express = require('express');
 const path = require('path');
-const HTTP_PORT = process.env.HTTP_PORT || 5000 // 3000?
-const HTTPS_PORT = process.env.HTTPS_PORT
+const HTTP_PORT = process.env.HTTP_PORT || 5000; // 3000?
+const HTTPS_PORT = process.env.HTTPS_PORT;
+const MONGO_SERVER = process.env.MONGO_SERVER;
 const app = new express();
 const passport = require('passport');
 const session = require('express-session');
@@ -32,7 +33,7 @@ const privateKey  = fs.readFileSync('./server.key', 'utf8');
 const certificate = fs.readFileSync('./server.crt', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 
-mongoose.connect("mongodb+srv://nhdtxdy:tombeo01@cluster0.1nwrmhp.mongodb.net/bigbrothers", {
+mongoose.connect(MONGO_SERVER, {
     useNewUrlParser : true,
     useUnifiedTopology : true,
 });
