@@ -69,5 +69,5 @@ While this is the easy method, your information will be stored on *our* MongoDB 
 - Amendment: allow for more interactions - comments and shares. 
 
 ## Contributors:
-- Nguyen Ha Duy (Escole Polytechnique)
-- Minh Trung Dang (University of Massachusetts Amherst)
+- Nguyen Ha Duy (École Polytechnique, 🇫🇷)
+- Minh Trung Dang (University of Massachusetts Amherst, 🇺🇸)
