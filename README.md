@@ -37,8 +37,8 @@ This is an ongoing project, and this repository is barely an MVP. For security r
 
 To deploy this repository you will only need `NodeJS` installed. Then type the following commands 
 \
-`git clone https://github.com/dmtrung14/StatsImprover-network/ && cd StatsImprover-network` \
-
+`git clone https://github.com/dmtrung14/StatsImprover-network/ && cd StatsImprover-network`
+\
 Now that the repo is local:
 
 - Run `npm install` to install all packages in your repository 
