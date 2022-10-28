@@ -59,7 +59,7 @@ To create your own version of BigBrothers Network, database, payments and the in
   </kbd>
 </p>
 
-# Deployment
+# Installation
 
 To deploy this repository you need `NodeJS` and `MongoDB` installed. You also need to create a [Facebook application supporting OAuth](https://developers.facebook.com/docs/facebook-login).
 
