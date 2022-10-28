@@ -1,4 +1,4 @@
-# Table of Contents:
+# Table of Contents
 - [Preface](#preface)
 - [Introduction](#introduction)
 - [Technologies Used](#technologies-used)
@@ -15,12 +15,12 @@ Then get started with this new **anti-bot** platform 😎
 
 BigBrothers Netowrk is a social media for users to interact with Facebook posts to earn tokens and use tokens to earn more interaction on Facebook posts. And tokens can be exchanged for real money! 😏
 
-# Introduction:
-This is an ongoing project. This repository contains just the open-source parts of BigBrothers Network (i.e Front-end and some Back-end logic) without disclosing in details how backend security works. As a result, information relating to database, payments and server-side security mechanism are not published.
+# Introduction
+This is an ongoing project. This repository contains just the open-source parts of BigBrothers Network (i.e Front-end and some Back-end logic) without disclosing in details how backend security works. As a result, information relating to database, payments and server-side security mechanism are not published, or heavily obfuscated.
 
 To create your own version of BigBrothers Network, database, payments and the interaction verification system should be implemented from scratch.
 
-# Technologies Used:
+# Technologies Used
 
 ![](https://img.shields.io/badge/PassportJS-brightgreen)
 ![](https://img.shields.io/badge/CryptoJS-blue)
@@ -35,7 +35,7 @@ To create your own version of BigBrothers Network, database, payments and the in
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
-# Features:
+# Features
 
 ## Homepage of all currently Active Posts
 <p align="center">
@@ -59,7 +59,7 @@ To create your own version of BigBrothers Network, database, payments and the in
   </kbd>
 </p>
 
-## Deployment:
+# Deployment
 
 To deploy this repository you need `NodeJS` and `MongoDB` installed. You also need to create a [Facebook application supporting OAuth](https://developers.facebook.com/docs/facebook-login).
 
@@ -83,7 +83,7 @@ Then, in `core/.env`, replace the system variables as you wish:
 - `HTTP_PORT` and `HTTPS_PORT` if you want to change default ports.
 - `MONGO_SERVER` specifies the MongoDB server's address.
 
-# Future Developments:
+# Future Developments
 - Addition: Stripe API to allow purchase of tokens and convert from tokens to money
 - Amendment: allow for more interactions - comments and shares. 
 
