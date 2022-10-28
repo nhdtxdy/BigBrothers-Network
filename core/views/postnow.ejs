@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <header>
+        <%- include('partials/header') %>
+    </header>
+    &nbsp;&nbsp;
+    <main>
+       <!-- Load icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- The form -->
+        <div class="container h-100">
+          <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-10 col-md-8 col-lg-6">
+              <form name="makepost" id="makepost" action="/post" method="POST">
+                <div class="form-group">
+                  <label for="amount">Amount</label>
+                  <input name="amount" type="number" class="form-control" id="amount" aria-describedby="amountHelp" placeholder="Enter amount of tokens">
+                  <small id="amountHelp" class="form-text text-muted">You have <%= user.balance %> tokens</small>
+                </div>
+                <div class="form-group">
+                  <label for="goal">Goal</label>
+                  <input name="goal" onblur="goalCheck();" type="number" class="form-control" id="goal" aria-describedby="goalHelp" placeholder="Enter goal">
+                  <small id="goalHelp" class="form-text text-muted">Amount must be divisible by Goal</small>
+                </div>
+                <div class="form-group">
+                  <label for="href">Link to post</label>
+                  <input name="href" onblur="urlCheck();" type="url" class="form-control" id="href" aria-describedby="hrefHelp" placeholder="Enter post url">
+                  <small id="hrefHelp" class="form-text text-muted">Enter the url of the Facebook post you want to promote</small>
+                </div>
+                <div class="form-group">
+                  <label for="message">Description (optional)</label>
+                  <textarea form="makepost" name="message" class="form-control" id="message" rows="3"></textarea>
+                </div>
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                  <input type="checkbox" name="hideContent" class="custom-control-input" id="hideContent">
+                  <label class="custom-control-label" for="hideContent">Hide content of original post</label>
+                </div>
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                  <input type="checkbox" onclick="confirm()" name="confirmation" class="custom-control-input" id="confirmation">
+                  <label class="custom-control-label" for="confirmation">I understand that this action is irreversible</label>
+                </div>
+                <input type="hidden" name="nonce" value="<%= user.nonce %>">
+                <button type="button" onclick="doubleCheck(true,true)" disabled name="submitButton" id="submitButton" class="btn btn-primary">Submit</button>
+              </form>
+              <br>
+              <small class="alert" style="color:red;display:none">Invalid amount</small>
+              <br>
+              <small class="alert2" style="color:red;display:none">Invalid url</small>
+              <script>
+                let confirmed = false;
+                function doubleCheck(showAlert=false,doSubmit=false) {
+                  if (!document.makepost.amount.value || !document.makepost.goal.value || !document.makepost.href.value || !confirmed) {
+                    if (showAlert) {
+                      alert("Fields must not be left empty!");
+                    }
+                    return false;
+                  }
+                  if (doSubmit) {
+                    document.getElementById("makepost").submit();
+                  }
+                  return true;
+                }
+                function confirm() {
+                  console.log(confirmed);
+                  confirmed = !confirmed;
+                  if (confirmed && doubleCheck() && goalCheck() && urlCheck()) {
+                    document.makepost.submitButton.disabled = false;
+                    return true;
+                  }
+                  document.makepost.submitButton.disabled = true;
+                  return false;
+                }
+                function goalCheck() {
+                  console.log("check");
+                  if (parseInt(document.makepost.amount.value) <= 0 || parseInt(document.makepost.goal.value) <= 0 || parseInt(document.makepost.amount.value) % parseInt(document.makepost.goal.value) != 0) {
+                    $('.alert').show();
+                    document.makepost.submitButton.disabled = true;
+                    return false;
+                  }
+                  $('.alert').hide();
+                  document.makepost.submitButton.disabled = false;
+                  return true;
+                }
+                function urlCheck() {
+                  const regexpattn = new RegExp(".+facebook\.com/.+");
+                  if (!regexpattn.test(document.makepost.href.value)) {
+                    $('.alert2').show();
+                    document.makepost.submitButton.disabled = true;
+                    return false;
+                  }
+                  $('.alert2').hide();
+                  document.makepost.submitButton.disabled = false;
+                  return true;
+                }
+              </script>
+            </div>
+          </div>
+        </div>
+        <script src="js/backstretch.min.js" defer></script>
+        <script src="js/backstretch_postnow.js" defer></script>
+    </main>
+    <%- include('partials/footer', {user : user}) %>
+  </body>
+</html>

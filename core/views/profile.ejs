@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+    <%- include('partials/head') %>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <%- include('partials/header') %>
+    </header>
+    &nbsp;&nbsp;
+    <main>
+        <div class="container">
+            <div class="page-header text-center">                
+                <h1><img class = "rounded-circle" src="<%=user.pic%>" alt=""> <span class="fa fa-anchor"></span> <%= user.name%></h1>
+            </div>
+            <div class="row justify-content-center align-items-center">
+                <!-- FACEBOOK INFORMATION -->
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h3 class="text-primary"><span class="fa fa-facebook"></span><%= user.balance %> tokens available
+                        <button type="button" onclick="window.location='/topup'" class="btn btn-primary">Buy Tokens</button>
+                        </h3>
+                            <p>
+                                <strong>UserID</strong>: <%= user.uid %><br>
+                                <!-- <strong>email</strong>: <%= user.email %><br> -->
+                                <strong>Name</strong>: <%= user.name %><br>
+                                <!-- <strong>gender</strong>: <%= user.gender %><br> -->
+                                
+                            </p>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+              <div class="page-header text-center">
+                <h1><span class="fa fa-anchor"></span> Active Posts</h1>
+              </div>
+                <div class="row justify-content-center align-items-center">
+                  <div class="card" style="width: 48rem">
+                    <div class="border border-left border-right px-0">
+                      <div>
+                        <% posts.forEach(post => { %>
+                        <div class="d-flex p-3 border-bottom" loading="lazy">
+                          <img src="<%= post.opPic %>" class="rounded-circle"
+                            height="50" alt="Avatar" loading="lazy" />
+                          <div class="d-flex w-100 ps-3">
+                            <div>
+                              <h6 class="text-body">
+                                <a href="#">
+                                  <%= post.opName %>
+                                  <!-- <span class="small text-muted font-weight-normal">@mileycyrus</span> -->
+                                  <span class="small text-muted font-weight-normal"> • </span>
+                                  <!-- <span class="small text-muted font-weight-normal">2h</span> -->
+                                  <span><i class="fas fa-angle-down float-end"></i></span>
+                                </a>
+                                <span style="color:green"><%= post.reward / post.goal %> tokens reward</span>
+                                <span class="small text-muted font-weight-normal"> • </span>
+                                <span style="color:blue">only <%= post.available %> entries left</span>
+                              </h6>
+                            <br>
+                            <div class="row">
+                            <button id="delete1<%=post._id%>" type="button" onclick="doubleCheck('<%=post._id%>');" class="btn btn-primary btn-sm">Delete</button>
+                            <button id="cancel<%=post._id%>" type="button" style="display:none" onclick="cancelAction('<%=post._id%>');" class="btn btn-warning btn-sm">Cancel</button>
+                            <br>
+                            <form name="deletepost<%=post._id%>" id="deletepost<%=post._id%>" action="/delete" method="POST">
+                                <input type="hidden" name="postId" value="<%= post._id %>">
+                                <input type="hidden" name="opUid" value="<%= post.opUid %>">
+                                <input type="hidden" name="nonce" value="<%= user.nonce %>">
+                                <button type="submit" style="display:none" name="delete1<%=post._id%>confirm" id="delete1<%=post._id%>confirm" class="btn btn-danger btn-sm">Ok</button>
+                            </form>
+                            </div>
+                              <p style="line-height: 1.2;">
+                                <%= post.description %>
+                              </p>
+                              <div class="fb-post" data-href="<%= post.href %>" data-show-text="true"><blockquote cite="<%= post.href %>" class="fb-xfbml-parse-ignore">Posted by <a href="https://www.facebook.com/facebook/">Facebook</a> on&nbsp;<a href="<%= post.href %>">some time</a></blockquote></div>
+                              <!-- <ul class="list-unstyled d-flex justify-content-between mb-0 pe-xl-5">
+                                <li>
+                                  <i class="far fa-comment"></i>
+                                </li>
+                                <li><i class="fas fa-retweet"></i><span class="small ps-2">7</span></li>
+                                <li><i class="far fa-heart"></i><span class="small ps-2">35</span></li>
+                                <li>
+                                  <i class="far fa-share-square"></i>
+                                </li>
+                              </ul> -->
+                            </div>
+                          </div>
+                        </div>
+                        <% }); %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="page-header text-center">
+                  <h1><span class="fa fa-anchor"></span>Inactive Posts</h1>
+                </div>
+                <div class="row justify-content-center align-items-center">
+                  <div class="card" style="width: 48rem">
+                    <div class="border border-left border-right px-0">
+                      <div>
+                        <% inactivePosts.forEach(post => { %>
+                        <div class="d-flex p-3 border-bottom" loading="lazy">
+                          <div class="d-flex w-100 ps-3">
+                            <div>
+                              <h6 class="text-body">
+                                <span style="color:green"><%= post.reward %>  reward</span>
+                                <span class="small text-muted font-weight-normal"> • </span>
+                                <span style="color:blue"><%= post.available %> available entries</span>
+                              </h6>
+                            <br>
+                            <% if (post.available > 0) { %>
+                            <div class="row">
+                              <button id="restore<%=post._id%>" type="button" onclick="doubleCheckRestore('<%=post._id%>');" class="btn btn-primary btn-sm">Restore</button>
+                              <button id="cancelRestore<%=post._id%>" type="button" style="display:none" onclick="cancelActionRestore('<%=post._id%>');" class="btn btn-warning btn-sm">Cancel</button>
+                              <br>
+                              <form name="restorePost<%=post._id%>" id="restorePost<%=post._id%>" action="/restore" method="POST">
+                                  <input type="hidden" name="postId" value="<%= post._id %>">
+                                  <input type="hidden" name="opUid" value="<%= post.opUid %>">
+                                  <input type="hidden" name="nonce" value="<%= user.nonce %>">
+                                  <button type="submit" style="display:none" name="restore<%=post._id%>confirm" id="restore<%=post._id%>confirm" class="btn btn-success btn-sm">Ok</button>
+                              </form>
+                              </div>
+                            <% } %>
+                              <p style="line-height: 1.2;">
+                                <%= post.description %>
+                              </p>
+                              <div class="fb-post" data-href="<%= post.href %>" data-show-text="true"><blockquote cite="<%= post.href %>" class="fb-xfbml-parse-ignore">Posted by <a href="https://www.facebook.com/facebook/">Facebook</a> on&nbsp;<a href="<%= post.href %>">some time</a></blockquote></div>
+                            </div>
+                          </div>
+                        </div>
+                        <% }); %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <script>
+          function doubleCheckRestore(id) {
+            var restore = document.getElementById("restore" + String(id));
+            restore.style.display = "none";
+            var cancel = document.getElementById("cancelRestore" + String(id));
+            cancel.style.display = "inline";
+            var submit = document.getElementById(String(restore.id) + "confirm");
+            submit.style.display = "inline";
+          }
+          function cancelActionRestore(id) {
+            var restore = document.getElementById("restore" + String(id));
+            restore.style.display = "inline";
+            var cancel = document.getElementById("cancelRestore" + String(id));
+            cancel.style.display = "none";
+            var submit = document.getElementById(String(restore.id) + "confirm");
+            submit.style.display = "none";
+          }
+          function doubleCheck(id) {
+            var delete1 = document.getElementById("delete1" + String(id));
+            delete1.style.display = "none";
+            var cancel1 = document.getElementById("cancel" + String(id));
+            cancel1.style.display = "inline";
+            var submit = document.getElementById(String(delete1.id) + "confirm");
+            submit.style.display = "inline";
+          }
+          function cancelAction(id) {
+            var delete1 = document.getElementById("delete1" + String(id));
+            delete1.style.display = "inline";
+            var cancel1 = document.getElementById("cancel" + String(id));
+            cancel1.style.display = "none";
+            var submit = document.getElementById(String(delete1.id) + "confirm");
+            submit.style.display = "none";
+          }
+        </script>
+        <script src="js/backstretch.min.js" defer></script>
+        <script src="js/backstretch_postnow.js" defer></script>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>

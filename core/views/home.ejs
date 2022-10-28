@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <header>
+        <%- include('partials/header') %>
+    </header>
+    &nbsp;&nbsp;
+    <main>
+    <div class="container">
+      <div class="row h-100 justify-content-center align-items-center">
+        <div class="card" style="width: 48rem">
+          <div class="border border-left border-right px-0">
+            <div class="help">
+              <div class="question">?</div>
+              <div class="popup">
+                <h3>How to earn tokens?</h3>
+                <p>You can earn tokens either by clicking on the like button below, or directly react on the original post</p>
+                <p>Either way, please click the verify button for your interaction to be considered</p>
+              </div>
+            </div>
+
+            <div>
+              <% posts.forEach(post => { %>
+              <script>
+                sessionStorage.setItem("opName_<%=post._id%>", "<%=post.opName%>");
+                sessionStorage.setItem("opPic_<%=post._id%>", "<%=post.opPic%>");
+                sessionStorage.setItem("reward_<%=post._id%>", "<%=post.reward%>");
+                sessionStorage.setItem("href_<%=post._id%>", "<%=post.href%>");
+                sessionStorage.setItem("description_<%=post._id%>", "<%=post.description%>");
+              </script>
+              <span class="divLink" style="display:block" onclick="window.location='/post?id=<%=post.id%>'">
+                <div class="d-flex p-3 border-bottom">
+                  <img src="<%= post.opPic %>" class="rounded-circle"
+                    height="50" alt="Avatar" loading="lazy" />
+                  <div class="d-flex w-100 ps-3">
+                    <div>
+                      <h6 class="text-body">
+                        <a href="#">
+                          <%= post.opName %>
+                          <!-- <span class="small text-muted font-weight-normal">@mileycyrus</span> -->
+                          <span class="small text-muted font-weight-normal"> • </span>
+                          <!-- <span class="small text-muted font-weight-normal">2h</span> -->
+                          <span><i class="fas fa-angle-down float-end"></i></span>
+                        </a>
+                        <span style="color:green"><%= post.reward / post.goal %> tokens reward</span>
+                        <span class="small text-muted font-weight-normal"> • </span>
+                        <span style="color:blue">only <%= post.available %> entries left</span>
+                      </h6>
+                      <p style="line-height: 1.2;">
+                        <%= post.description %>
+                      </p>
+                      <!-- <div class="fb-post" data-href="<%= post.href %>" data-show-text="true"><blockquote cite="<%= post.href %>" class="fb-xfbml-parse-ignore">Posted by <a href="https://www.facebook.com/facebook/">Facebook</a> on&nbsp;<a href="<%= post.href %>">some time</a></blockquote></div> -->
+                    </div>
+                  </div>
+                </div>
+              </span>
+              <% }); %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </main>
+
+    <%- include('partials/footer', {user : user}) %>
+  </body>
+  <script src="js/backstretch.min.js" defer></script>
+  <script src="js/backstretch_postnow.js" defer></script>
+</html>

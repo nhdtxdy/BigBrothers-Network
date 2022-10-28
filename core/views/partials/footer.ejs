@@ -1,0 +1,48 @@
+<footer class="mt-auto">
+    <div class="w=100" style="background-color:white">
+        <p class="text-center text-muted">&copy; 2022 Big Brothers / All Rights Reserved</p>
+        <a href="https://www.iubenda.com/privacy-policy/43791086" class="iubenda-white iubenda-noiframe iubenda-embed iubenda-noiframe " title="Privacy Policy ">Privacy Policy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+    </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        function sendMessage(extensionId, request) {
+            return new Promise((resolve, reject) => {
+                chrome.runtime.sendMessage(extensionId, request, (response) => {
+                    try {
+                        if (response.version) resolve(response);
+                        else reject(response);
+                    }
+                    catch (err) {
+                        console.log("?");
+                        if (!location.href.endsWith('/extension_required')) location.assign('/extension_required');
+                    }
+                });
+            });
+        }
+    
+        setTimeout(() => {
+            const check = document.getElementById('bigBrotherExtensionCheck');
+            if (check != undefined) {
+                const extensionId = check.value;
+                sendMessage(extensionId, {type : "VERSION"}).catch((err) => {
+                    console.log("?");
+                    if (!location.href.endsWith('/extension_required')) location.assign('/extension_required');
+                }).then(response => {
+                    var hasExtension = (response.version == "1.0");
+                    if (!hasExtension) {
+                        if (!location.href.endsWith('/extension_required')) location.assign('/extension_required');
+                    }
+                    else {
+                        console.log("Has extension!");
+                    }
+                });
+            }
+            else {
+                if (!location.href.endsWith('/extension_required')) location.assign('/extension_required');
+            }
+        }, 2500);
+        
+    </script>
