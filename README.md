@@ -13,7 +13,7 @@ Have you ever wanted to boost your interaction stats on Facebook, but those like
 
 Then get started with this new **anti-bot** platform 😎
 
-BigBrothers Netowrk is a social media for users to interact with Facebook posts to earn tokens and use tokens to earn more interaction on Facebook posts. And tokens can be exchanged for real money! 😏
+BigBrothers Network is a social media for users to interact with Facebook posts to earn tokens and use tokens to earn more interaction on Facebook posts. And tokens can be exchanged for real money! 😏
 
 # Introduction
 This is an ongoing project. This repository contains just the open-source parts of BigBrothers Network (i.e Front-end and some Back-end logic) without disclosing in details how backend security works. As a result, information relating to database, payments and server-side security mechanism are not published, or heavily obfuscated.
