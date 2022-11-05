@@ -35,6 +35,13 @@ To create your own version of BigBrothers Network, database, payments and the in
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
+- ExpressJS
+- PassportJS
+- CryptoJS
+- Socket.io
+- MongoDB
+- Bootstrap
+
 # Features
 
 ## Homepage of all currently Active Posts
