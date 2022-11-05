@@ -3,8 +3,8 @@
 - [Introduction](#introduction)
 - [Technologies Used](#technologies-used)
 - [Features](#features)
-- [Deployment](#deployment)
-- [Future Development](#future)
+- [Deployment](#installation)
+- [Future Development](#future-developments)
 - [License](#license)
 
 # Preface
