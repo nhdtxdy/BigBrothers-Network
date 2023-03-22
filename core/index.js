@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
 require('dotenv').config(); // for process.env.
+const HTTP_PORT = process.env.HTTP_PORT || 5000; // 3000?
+const HTTPS_PORT = process.env.HTTPS_PORT;
+const MONGO_SERVER = process.env.MONGO_SERVER;
+
 const devcert = require('devcert');
 const fs = require('fs');
 const https = require('https');
 const http = require('http');
 const express = require('express');
 const path = require('path');
-const HTTP_PORT = process.env.HTTP_PORT || 5000; // 3000?
-const HTTPS_PORT = process.env.HTTPS_PORT;
-const MONGO_SERVER = process.env.MONGO_SERVER;
 const app = new express();
 const passport = require('passport');
 const session = require('express-session');
@@ -28,6 +29,7 @@ const parse = require('node-html-parser');
 const { Server } = require('socket.io');
 const { use } = require('passport');
 const { post } = require('request');
+
 const ENCRYPTION_IV = "6268890F-9B58-48";
 const privateKey  = fs.readFileSync('./server.key', 'utf8');
 const certificate = fs.readFileSync('./server.crt', 'utf8');
@@ -42,8 +44,6 @@ function createNonce() {
     return crypto.randomBytes(16).toString('base64');
 }
 
-// app.enable('trust proxy');
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -54,12 +54,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({extended : false}));
 
-  
 passport.use(new facebookStrategy({
     clientID        : process.env.APPID,
     clientSecret    : process.env.SECRET,
     callbackURL     : `/facebook/callback`,
-    // callbackURL     : `http:///facebook/callback`,
 
     profileFields: ['picture.type(large)', 'id', 'displayName', 'name'/*, 'gender','emails'*/]
 }, (token, refreshToken, profile, done) => {
@@ -135,18 +133,21 @@ app.get('/profile', isLoggedIn, async (req, res) => { // req: request, res respo
         inactivePosts : inactivePosts,
     });
 });
+
 app.get('/logout', (req, res, next) => {
     req.logout((err) => {
         if (err) return next(err);
         res.redirect('/login');
     });
 });
+
 app.get('/postnow', isLoggedIn, (req, res) => {
     res.render("postnow", {
         pageName: "postnow",
         user: req.user,
     })
 });
+
 app.get('/topup', isLoggedIn, (req, res) => {
     res.render("topup", {
         pageName: "topup",
@@ -174,10 +175,12 @@ const fbScopes = [
 ];
 
 app.get('/auth/facebook', passport.authenticate('facebook', {scope : fbScopes}));
+
 app.get('/facebook/callback', passport.authenticate('facebook', {
     successRedirect : '/profile',
     failureRedirect : '/login'
 }));
+
 app.get('/login', (req, res, next) => {
     if (req.isAuthenticated()) {
         return res.redirect('/');
@@ -186,6 +189,7 @@ app.get('/login', (req, res, next) => {
 }, (req,res) => {
     res.render("login");
 });
+
 app.get('/', isLoggedIn, (req, res) => {
     Post.find({_id : {$nin : req.user.likedPosts}}).sort({createdAt : -1}).limit(10).exec((err, posts) => {
        if (err) throw err;
@@ -301,7 +305,6 @@ app.post('/delete', isLoggedIn, (req, res) => {
 });
 
 app.post('/restore', isLoggedIn, (req, res) => {
- // TODO
     if (req.body.opUid != req.user.uid || req.body.nonce != req.user.nonce) {
         res.end("You don't have permission to restore that post!");
         return;
@@ -408,22 +411,20 @@ app.post('/validate', (req, res) => {
     })
 });
 
-// const http_server = http.createServer(app);
+const http_server = http.createServer(app);
 const https_server = https.createServer(credentials, app);
 
 // const io = new Server(http_server);
-
 // io.on('connection', (socket) => {
 //     console.log('A user connected to socket.io');
 // })
 
-// http_server.listen(HTTP_PORT, () => {
-//   console.log(`Server is listening on http://localhost:${HTTP_PORT}`);
-// });
+http_server.listen(HTTP_PORT, () => {
+  console.log(`Server is listening on http://localhost:${HTTP_PORT}`);
+});
 
 https_server.listen(HTTPS_PORT, () => {
     console.log(`Https server is listening on https://localhost:${HTTPS_PORT}`);
 })
-// Ok
-// Test change 3
+
 
